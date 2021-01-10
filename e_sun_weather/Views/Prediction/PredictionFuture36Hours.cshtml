@@ -1,0 +1,101 @@
+﻿@model IEnumerable<e_sun_weather.Infra.Core.Model.VO.OpenWeather.PredictionFuture36HoursVO>
+
+@{
+    ViewBag.Title = "PredictionFuture36Hours";
+    var locationListItem = (List<SelectListItem>)ViewBag.Location;
+}
+
+<style>
+    .selectWrapper {
+        border-radius: 5px;
+        display: inline-block;
+        overflow: hidden;
+        border: 1px solid #cccccc;
+        margin-bottom: 5px;
+    }
+
+    .dropdown {
+        width: 150px;
+        height: 30px;
+        border: 0px;
+        outline: none;
+    }
+</style>
+
+<h2>一般天氣預報-今明 36 小時天氣預報</h2>
+
+<div class="selectWrapper">
+    <select id="location" class="dropdown">
+        @foreach (var item in locationListItem)
+        {
+            <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text</option>
+        }
+    </select>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DataDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LocationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ElementName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParameterName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParameterValue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ParameterUnit)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataDescription)
+        </td>
+        <td>
+            @item.LocationName.ToString()
+        </td>
+        <td>
+            @item.ElementName.ToDescript()
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParameterName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParameterValue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParameterUnit)
+        </td>
+    </tr>
+}
+
+</table>
+
+<script>
+    $(function () {
+        $('#location').change(function () {
+            location.href = "@Url.Action("PredictionFuture36Hours", new { location = "_location_"})".replace('_location_', $(this).val());
+        })
+    })
+</script>
